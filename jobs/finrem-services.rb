@@ -1,14 +1,6 @@
 require 'net/http'
 require 'json'
 
-# Set the following constants with your data
-PROJECT_ID = 0
-ACCESS_TOKEN = 'your-access-token'
-CLIENT_ID = 'your-client-id'
-UID = 'your-uid'
-
-PROJECT_URL = "http://finrem-ns-prod.service.core-compute-prod.internal/health"
-
 SERVICES = { "FR-COS" => "http://finrem-cos-prod.service.core-compute-prod.internal/health",
            "FR-NS" => "http://finrem-ns-prod.service.core-compute-prod.internal/health",
            "FR-DGCS" => "http://finrem-dgcs-prod.service.core-compute-prod.internal/health",
@@ -58,10 +50,7 @@ SCHEDULER.every '30s' do\
   test_runs = request_hiptest_status(url)
 
     if test_runs
-      send_event(name, {
-          href: 'http://finrem-cos-prod.service.core-compute-prod.internal/health',
-          text: get_status_text(test_runs)
-      })
+      send_event(name, text: get_status_text(test_runs))
     end
   end
 end
